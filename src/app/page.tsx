@@ -1,9 +1,17 @@
-import Greet from '@/components/greet'
+import { Suspense } from 'react'
+import dynamic from 'next/dynamic'
+import { FloatingNoteTitle } from '@/components/floating-note-title'
+
+const MarkdownEditor = dynamic(() => import('@/components/markdown-editor'), { ssr: false })
 
 export default function App() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <Greet />
+    <main className="flex-1 overflow-y-auto bg-zinc-900/50 [scrollbar-gutter:stable]">
+      <FloatingNoteTitle />
+
+      <Suspense fallback={null}>
+        <MarkdownEditor />
+      </Suspense>
     </main>
   )
 }
