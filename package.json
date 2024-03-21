@@ -14,30 +14,26 @@
     "format:check": "prettier --check src"
   },
   "dependencies": {
-    "@codemirror/commands": "^6.3.3",
-    "@codemirror/lang-markdown": "^6.2.4",
-    "@codemirror/state": "^6.4.1",
-    "@codemirror/view": "^6.26.0",
     "@mdxeditor/editor": "^2.16.0",
-    "@tauri-apps/api": "^1.5.3",
+    "@tauri-apps/api": "1.5.3",
     "next": "14.1.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.10",
-    "@tauri-apps/cli": "^1.5.11",
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@tailwindcss/typography": "0.5.10",
+    "@tauri-apps/cli": "1.5.11",
+    "@types/node": "20.11.30",
+    "@types/react": "18.2.67",
+    "@types/react-dom": "18.2.22",
     "autoprefixer": "10.0.1",
-    "clsx": "^2.1.0",
-    "eslint": "^8.57.0",
+    "clsx": "2.1.0",
+    "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
-    "postcss": "^8.4.38",
+    "postcss": "8.4.38",
     "prettier": "3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.12",
+    "prettier-plugin-tailwindcss": "0.5.12",
     "tailwindcss": "3.3.0",
-    "typescript": "^5.4.3"
+    "typescript": "5.4.3"
   }
 }

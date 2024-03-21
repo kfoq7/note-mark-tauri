@@ -5,76 +5,64 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@codemirror/commands':
-    specifier: ^6.3.3
-    version: 6.3.3
-  '@codemirror/lang-markdown':
-    specifier: ^6.2.4
-    version: 6.2.4
-  '@codemirror/state':
-    specifier: ^6.4.1
-    version: 6.4.1
-  '@codemirror/view':
-    specifier: ^6.26.0
-    version: 6.26.0
   '@mdxeditor/editor':
     specifier: ^2.16.0
     version: 2.16.0(@codemirror/language@6.10.1)(@lezer/common@1.2.1)(@lezer/highlight@1.2.0)(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)(yjs@13.6.14)
   '@tauri-apps/api':
-    specifier: ^1.5.3
+    specifier: 1.5.3
     version: 1.5.3
   next:
     specifier: 14.1.4
     version: 14.1.4(react-dom@18.2.0)(react@18.2.0)
   react:
-    specifier: ^18.2.0
+    specifier: 18.2.0
     version: 18.2.0
   react-dom:
-    specifier: ^18.2.0
+    specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
 
 devDependencies:
   '@tailwindcss/typography':
-    specifier: ^0.5.10
+    specifier: 0.5.10
     version: 0.5.10(tailwindcss@3.3.0)
   '@tauri-apps/cli':
-    specifier: ^1.5.11
+    specifier: 1.5.11
     version: 1.5.11
   '@types/node':
-    specifier: ^20.11.30
+    specifier: 20.11.30
     version: 20.11.30
   '@types/react':
-    specifier: ^18.2.67
+    specifier: 18.2.67
     version: 18.2.67
   '@types/react-dom':
-    specifier: ^18.2.22
+    specifier: 18.2.22
     version: 18.2.22
   autoprefixer:
     specifier: 10.0.1
     version: 10.0.1(postcss@8.4.38)
   clsx:
-    specifier: ^2.1.0
+    specifier: 2.1.0
     version: 2.1.0
   eslint:
-    specifier: ^8.57.0
+    specifier: 8.57.0
     version: 8.57.0
   eslint-config-next:
     specifier: 14.1.4
     version: 14.1.4(eslint@8.57.0)(typescript@5.4.3)
   postcss:
-    specifier: ^8.4.38
+    specifier: 8.4.38
     version: 8.4.38
   prettier:
     specifier: 3.2.5
     version: 3.2.5
   prettier-plugin-tailwindcss:
-    specifier: ^0.5.12
+    specifier: 0.5.12
     version: 0.5.12(prettier@3.2.5)
   tailwindcss:
     specifier: 3.3.0
     version: 3.3.0(postcss@8.4.38)
   typescript:
-    specifier: ^5.4.3
+    specifier: 5.4.3
     version: 5.4.3
 
 packages:
