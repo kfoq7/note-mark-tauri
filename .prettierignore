@@ -1,4 +1,8 @@
 node_modules
 .next
+
 public
+
 tuari-app
+
+tsconfig.json
