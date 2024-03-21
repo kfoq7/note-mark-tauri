@@ -3,6 +3,7 @@ node_modules
 
 public
 
-tuari-app
+/packages/tuari-app/
 
 tsconfig.json
+tsconfig.*.json

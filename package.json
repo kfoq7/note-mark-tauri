@@ -5,10 +5,10 @@
   "author": "Fabrizio M @kfoq7",
   "scripts": {
     "dev": "pnpm tauri dev",
-    "dev:web": "next dev",
-    "build": "next build",
+    "dev:web": "next dev packages/next-app",
+    "build": "next build packages/next-app",
     "start": "next start",
-    "typecheck": "tsc --noEmit -p tsconfig.json --composite false",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "lint": "next lint",
     "format": "prettier --write src",
     "format:check": "prettier --check src"
