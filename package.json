@@ -8,10 +8,10 @@
     "dev:web": "next dev packages/next-app",
     "build": "next build packages/next-app",
     "start": "next start",
-    "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
+    "typecheck:web": "tsc --noEmit -p packages/next-app/tsconfig.json --composite false",
     "lint": "next lint",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src"
+    "format": "prettier --write packages/next-app",
+    "format:check": "prettier --check packages/next-app"
   },
   "dependencies": {
     "@mdxeditor/editor": "^2.16.0",

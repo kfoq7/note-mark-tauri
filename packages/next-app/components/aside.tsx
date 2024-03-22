@@ -1,7 +1,11 @@
+'use client'
+
 import { NotePreviewCard } from './note-preview-card'
-import { notes } from '@/lib/data'
+import { useNotes } from '@/hooks/useNotes'
 
 export function Aside() {
+  const { notes, selectedNote, selectNote } = useNotes()
+
   return (
     <aside className="flex h-screen w-[290px] flex-col">
       <div className="flex items-center justify-between p-3">
@@ -14,8 +18,13 @@ export function Aside() {
       </div>
 
       <ul className="notes-list my-2 flex flex-col items-center gap-y-2 overflow-y-auto pl-3 pr-2">
-        {notes.map(note => (
-          <NotePreviewCard key={note.title} note={note} />
+        {notes.map((note, index) => (
+          <NotePreviewCard
+            key={note.title}
+            note={note}
+            isSelected={note.id === selectedNote?.id}
+            onClick={() => selectNote(note.title)}
+          />
         ))}
       </ul>
     </aside>

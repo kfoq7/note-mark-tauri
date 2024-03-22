@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { monoSpaced } from '@/lib/fonts'
 import { Aside } from '@/components/aside'
+import { NotesProvider } from '@/providers/notes'
 
 export const metadata: Metadata = {
   title: 'NoteMarkTauri',
@@ -17,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={monoSpaced.className}>
-        <div className="flex min-h-screen divide-x-2 divide-zinc-900/50">
-          <Aside />
+        <NotesProvider>
+          <div className="flex min-h-screen divide-x-2 divide-zinc-900/50">
+            <Aside />
 
-          {children}
-        </div>
+            {children}
+          </div>
+        </NotesProvider>
       </body>
     </html>
   )

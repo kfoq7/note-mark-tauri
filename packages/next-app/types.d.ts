@@ -1,8 +1,9 @@
-export type NoteInfo = {
+export interface NoteInfo {
+  id: number
   title: string
   lastEditTime: number
 }
 
-export type NoteContent = string
-
-export type Note = NoteInfo & NoteContent
+export interface Note extends NoteInfo {
+  content?: string
+}

@@ -1,20 +1,24 @@
-import { NoteInfo } from '@/types'
+import type { NoteInfo } from '@/types'
 
-export const notes: readonly NoteInfo[] = [
+export const notes: NoteInfo[] = [
   {
+    id: 1,
     title: `Welcome 👋`,
-    lastEditTime: new Date().getTime()
+    lastEditTime: 1711064712024
   },
   {
+    id: 2,
     title: `Note 1`,
-    lastEditTime: new Date().getTime()
+    lastEditTime: 1711064712024
   },
   {
+    id: 3,
     title: `Note 2`,
-    lastEditTime: new Date().getTime()
+    lastEditTime: 1711064712024
   },
   {
+    id: 4,
     title: `Note 3`,
-    lastEditTime: new Date().getTime()
+    lastEditTime: 1711064712024
   }
 ]

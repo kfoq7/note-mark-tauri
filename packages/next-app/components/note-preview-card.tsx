@@ -1,16 +1,21 @@
+'use client'
+
 import { clsx } from 'clsx'
 import type { NoteInfo } from '@/types'
+import React from 'react'
 
 interface Props {
   note: NoteInfo
   isSelected?: boolean
+  onClick: () => void
 }
 
-export function NotePreviewCard({ note, isSelected }: Props) {
+export function NotePreviewCard({ note, isSelected, onClick }: Props) {
   const { title, lastEditTime } = note
 
   return (
     <li
+      onClick={onClick}
       className={clsx(
         'w-full cursor-pointer rounded-md border border-zinc-400/50 px-3 py-4 hover:border-zinc-400 hover:bg-zinc-400/20',
         {
