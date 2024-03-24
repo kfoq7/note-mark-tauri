@@ -1,5 +1,8 @@
+'use client'
+
 import { useContext } from 'react'
 import { NotesContext } from '@/providers/notes'
+import { readNote } from '@/services/notes.service'
 
 export function useNotes() {
   const context = useContext(NotesContext)
@@ -10,10 +13,10 @@ export function useNotes() {
 
   const { notes, selectedNote, setSelectedNote } = context
 
-  const selectNote = (title: string) => {
+  const selectNote = async (title: string) => {
     const note = notes.find(note => note.title === title)
     if (!note) return
-    const content = ''
+    const content = await readNote(note.title)
     const noteContent = { ...note, content }
     setSelectedNote(noteContent)
   }

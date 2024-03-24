@@ -26,7 +26,7 @@
         "removeFile": true,
         "renameFile": true,
         "exists": true,
-        "scope": ["$HOME/NoteMark"]
+        "scope": ["$HOME/NoteMark", "$HOME/NoteMark/*"]
       }
     },
     "bundle": {

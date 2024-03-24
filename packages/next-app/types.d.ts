@@ -1,9 +1,9 @@
 export interface NoteInfo {
-  id: number
+  id: string
   title: string
   lastEditTime: number
 }
 
 export interface Note extends NoteInfo {
-  content?: string
+  content: string
 }

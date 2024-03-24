@@ -8,7 +8,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage'
 export type NotesContextType = {
   notes: NoteInfo[]
   selectedNote: Note | null
-  addNote?: (note: NoteInfo) => void
+  addNote: (note: NoteInfo) => void
   setSelectedNote: (note: Note) => void
 }
 
@@ -23,7 +23,7 @@ export default function NotesProvider({ children }: Props) {
   const [notes, setNotes] = useState<NoteInfo[]>(initialNotes)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
 
-  const addNote = (note: Note) => {
+  const addNote = (note: NoteInfo) => {
     // TODO: add notes that were create
     const { title } = note
     const newNotes = [note, ...notes]

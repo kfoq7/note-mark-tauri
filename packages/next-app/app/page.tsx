@@ -9,13 +9,11 @@ const MarkdownEditor = dynamic(() => import('@/components/markdown-editor'), { s
 export default function App() {
   return (
     <main className="flex-1 overflow-y-auto bg-zinc-900/50 [scrollbar-gutter:stable]">
-      {/* <NotesProvider> */}
       <FloatingNoteTitle />
 
       <Suspense fallback={null}>
         <MarkdownEditor />
       </Suspense>
-      {/* </NotesProvider> */}
     </main>
   )
 }
