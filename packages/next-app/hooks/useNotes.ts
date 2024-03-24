@@ -1,5 +1,3 @@
-'use client'
-
 import { useContext } from 'react'
 import { NotesContext } from '@/providers/notes'
 
@@ -10,7 +8,7 @@ export function useNotes() {
     throw new Error('useNotes must be used within a NotesProvider.')
   }
 
-  const { notes, addNote, selectedNote, setSelectedNote } = context
+  const { notes, selectedNote, setSelectedNote } = context
 
   const selectNote = (title: string) => {
     const note = notes.find(note => note.title === title)
@@ -23,7 +21,6 @@ export function useNotes() {
   return {
     notes,
     selectedNote,
-    addNote,
     selectNote
   }
 }

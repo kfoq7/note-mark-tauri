@@ -4,7 +4,8 @@
     "beforeBuildCommand": "pnpm build",
     "beforeDevCommand": "pnpm dev:web",
     "devPath": "http://localhost:3000",
-    "distDir": "../../next-app/out"
+    "distDir": "../../next-app/out",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "note-mark-tauri",
@@ -12,7 +13,21 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": true,
+      "path": {
+        "all": true
+      },
+      "fs": {
+        "all": true,
+        "readDir": true,
+        "writeFile": true,
+        "readFile": true,
+        "createDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true,
+        "scope": ["$HOME/NoteMark"]
+      }
     },
     "bundle": {
       "active": true,

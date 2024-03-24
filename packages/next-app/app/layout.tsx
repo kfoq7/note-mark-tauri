@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import './globals.css'
 import { monoSpaced } from '@/lib/fonts'
 import { Aside } from '@/components/aside'
-import { NotesProvider } from '@/providers/notes'
+
+const NotesProvider = dynamic(() => import('@/providers/notes'), { ssr: false })
 
 export const metadata: Metadata = {
   title: 'NoteMarkTauri',

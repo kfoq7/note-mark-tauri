@@ -1,8 +1,9 @@
 'use client'
 
-import { createContext, useState } from 'react'
-import { notes as initialNotes } from '@/lib/data'
+import { createContext, useEffect, useState } from 'react'
+import { getNotes } from '@/services/notes.service'
 import type { NoteInfo, Note } from '@/types'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 export type NotesContextType = {
   notes: NoteInfo[]
@@ -11,19 +12,48 @@ export type NotesContextType = {
   setSelectedNote: (note: Note) => void
 }
 
-export const NotesContext = createContext<NotesContextType | null>(null)
-
 interface Props {
   children: React.ReactNode
 }
 
-export function NotesProvider({ children }: Props) {
+export const NotesContext = createContext<NotesContextType | null>(null)
+
+export default function NotesProvider({ children }: Props) {
+  const [initialNotes, setNoteState] = useLocalStorage<NoteInfo[]>('notes', [])
   const [notes, setNotes] = useState<NoteInfo[]>(initialNotes)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
 
-  const addNote = (note: NoteInfo) => {
-    setNotes([...notes, note])
+  const addNote = (note: Note) => {
+    // TODO: add notes that were create
+    const { title } = note
+    const newNotes = [note, ...notes]
+
+    setNotes(
+      newNotes.map(note => {
+        if (note.title === title) {
+          return {
+            ...note,
+            lastEditTime: Date.now()
+          }
+        }
+
+        return note
+      })
+    )
+
+    setNoteState(newNotes)
   }
+
+  useEffect(() => {
+    getNotes()
+      .then(noteResult => {
+        if (noteResult.length !== notes.length) {
+          setNoteState(noteResult)
+          setNotes(noteResult)
+        }
+      })
+      .catch(console.error)
+  }, [])
 
   return (
     <NotesContext.Provider value={{ notes, selectedNote, addNote, setSelectedNote }}>

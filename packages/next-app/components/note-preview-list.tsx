@@ -1,5 +1,3 @@
-'use client'
-
 import { useNotes } from '@/hooks/useNotes'
 import { NotePreviewCard } from './note-preview-card'
 

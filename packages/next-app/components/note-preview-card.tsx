@@ -1,8 +1,6 @@
-'use client'
-
 import { clsx } from 'clsx'
+import { formatDateFromMs } from '@/lib/utlis'
 import type { NoteInfo } from '@/types'
-import React from 'react'
 
 interface Props {
   note: NoteInfo
@@ -12,6 +10,8 @@ interface Props {
 
 export function NotePreviewCard({ note, isSelected, onClick }: Props) {
   const { title, lastEditTime } = note
+
+  const formatedDate = formatDateFromMs(lastEditTime)
 
   return (
     <li
@@ -25,7 +25,7 @@ export function NotePreviewCard({ note, isSelected, onClick }: Props) {
     >
       <h2 className="truncate font-bold">{title}</h2>
 
-      <p className="mb-2 inline-block w-full text-xs font-light">Last edit time: {lastEditTime}</p>
+      <p className="mb-2 inline-block w-full text-xs font-light">{formatedDate}</p>
     </li>
   )
 }

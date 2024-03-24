@@ -1,3 +1,10 @@
 {
-  "rust-analyzer.linkedProjects": ["packages/tauri-server/Cargo.toml"]
+  "rust-analyzer.linkedProjects": [
+    "packages/tauri-server/Cargo.toml",
+    ".\\packages\\tauri-server\\Cargo.toml",
+    ".\\packages\\tauri-server\\Cargo.toml",
+    ".\\packages\\tauri-server\\Cargo.toml",
+    ".\\packages\\tauri-server\\Cargo.toml",
+    ".\\packages\\tauri-server\\Cargo.toml"
+  ]
 }

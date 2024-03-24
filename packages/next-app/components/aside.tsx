@@ -2,6 +2,8 @@
 
 import { NotePreviewList } from './note-preview-list'
 
+// const NotePreviewList = dynamic(() => import('./note-preview-list'), { ssr: false })
+
 export function Aside() {
   return (
     <aside className="flex h-screen w-[290px] flex-col">
