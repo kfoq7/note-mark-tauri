@@ -1,5 +1,3 @@
-'use client'
-
 import { useContext } from 'react'
 import { NotesContext } from '@/providers/notes'
 import { readNote } from '@/services/notes.service'
