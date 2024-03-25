@@ -1,7 +1,7 @@
 'use client'
 
-import { useContext, useRef } from 'react'
-import { debounce, throttle } from 'lodash'
+import { useCallback, useContext, useRef } from 'react'
+import { throttle } from 'lodash'
 import { AUTO_SAVE_TIME } from '@/lib/consts'
 import { NotesContext } from '@/providers/notes'
 import { renameNote, saveNote } from '@/services/notes.service'
@@ -39,14 +39,22 @@ export function useEditor() {
     await saveNote({ title: selectedNote.title, content })
   }
 
-  const autoRenameNote = debounce(async (title: string) => {
-    if (!selectedNote) return
+  const autoUpdateTitle = useCallback(
+    throttle(
+      async (title: string) => {
+        if (!selectedNote) return
 
-    console.log('Updated title', title)
-
-    await renameNote(oldTitle, title)
-    setOldTitle(title)
-  })
+        await renameNote(oldTitle, title)
+        setOldTitle(title)
+      },
+      AUTO_SAVE_TIME,
+      {
+        leading: false,
+        trailing: true
+      }
+    ),
+    []
+  )
 
   const updateNoteTitle = async (title: string) => {
     if (!selectedNote) return
@@ -58,15 +66,12 @@ export function useEditor() {
       addOrUpdateNote(updateTitle)
       return updateTitle
     })
-
-    await renameNote(oldTitle, title)
-    setOldTitle(title)
   }
 
-  const onblur = async (title: string) => {
+  const updateTitle = async (title: string) => {
     if (!selectedNote) return
 
-    autoRenameNote.cancel()
+    autoUpdateTitle.cancel()
 
     await renameNote(oldTitle, title)
     setOldTitle(title)
@@ -76,9 +81,9 @@ export function useEditor() {
     editorRef,
     selectedNote,
     autoSaveNote,
-    autoRenameNote,
-    save,
+    autoUpdateTitle,
     updateNoteTitle,
-    onblur
+    updateTitle,
+    save
   }
 }
