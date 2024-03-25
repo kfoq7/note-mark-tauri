@@ -1,10 +1,10 @@
 'use client'
 
 import { useContext, useRef } from 'react'
-import { throttle } from 'lodash'
+import { debounce, throttle } from 'lodash'
 import { AUTO_SAVE_TIME } from '@/lib/consts'
 import { NotesContext } from '@/providers/notes'
-import { saveNote } from '@/services/notes.service'
+import { renameNote, saveNote } from '@/services/notes.service'
 import type { MDXEditorMethods } from '@mdxeditor/editor'
 
 export function useEditor() {
@@ -15,9 +15,9 @@ export function useEditor() {
     throw new Error('useEditor must be used within a NotesProvider.')
   }
 
-  const { selectedNote } = context
+  const { selectedNote, oldTitle, setSelectedNote, setOldTitle, addOrUpdateNote } = context
 
-  const autosave = throttle(
+  const autoSaveNote = throttle(
     async (content: string) => {
       if (!selectedNote) return
 
@@ -33,16 +33,52 @@ export function useEditor() {
   const save = async () => {
     if (!selectedNote) return
 
-    autosave.cancel()
+    autoSaveNote.cancel()
 
     const content = editorRef.current?.getMarkdown() ?? ''
     await saveNote({ title: selectedNote.title, content })
   }
 
+  const autoRenameNote = debounce(async (title: string) => {
+    if (!selectedNote) return
+
+    console.log('Updated title', title)
+
+    await renameNote(oldTitle, title)
+    setOldTitle(title)
+  })
+
+  const updateNoteTitle = async (title: string) => {
+    if (!selectedNote) return
+
+    setSelectedNote(prev => {
+      if (!prev) return prev
+
+      const updateTitle = { ...prev, title }
+      addOrUpdateNote(updateTitle)
+      return updateTitle
+    })
+
+    await renameNote(oldTitle, title)
+    setOldTitle(title)
+  }
+
+  const onblur = async (title: string) => {
+    if (!selectedNote) return
+
+    autoRenameNote.cancel()
+
+    await renameNote(oldTitle, title)
+    setOldTitle(title)
+  }
+
   return {
     editorRef,
     selectedNote,
-    autosave,
-    save
+    autoSaveNote,
+    autoRenameNote,
+    save,
+    updateNoteTitle,
+    onblur
   }
 }

@@ -1,5 +1,5 @@
 export interface NoteInfo {
-  id: string
+  id: number
   title: string
   lastEditTime: number
 }

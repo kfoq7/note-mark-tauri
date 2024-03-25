@@ -15,10 +15,10 @@ export function NotePreviewList() {
 
         return (
           <NotePreviewCard
-            key={title}
+            key={id}
             note={note}
             isSelected={id === selectedNote?.id}
-            onClick={() => selectNote(note.title)}
+            onClick={() => selectNote(title)}
           />
         )
       })}

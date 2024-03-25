@@ -9,7 +9,7 @@ export function useNotes() {
     throw new Error('useNotes must be used within a NotesProvider.')
   }
 
-  const { notes, selectedNote, setSelectedNote } = context
+  const { notes, selectedNote, setSelectedNote, setOldTitle } = context
 
   const selectNote = async (title: string) => {
     const note = notes.find(note => note.title === title)
@@ -17,6 +17,8 @@ export function useNotes() {
     const content = await readNote(note.title)
     const noteContent = { ...note, content }
     setSelectedNote(noteContent)
+
+    setOldTitle(title)
   }
 
   return {

@@ -1,15 +1,18 @@
 'use client'
 
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 import { getNotes } from '@/services/notes.service'
-import type { NoteInfo, Note } from '@/types'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import type { NoteInfo, Note } from '@/types'
 
 export type NotesContextType = {
+  oldTitle: string
   notes: NoteInfo[]
   selectedNote: Note | null
-  addNote: (note: NoteInfo) => void
-  setSelectedNote: (note: Note) => void
+  oldSelectedTitle?: string
+  addOrUpdateNote: (note: Note) => void
+  setOldTitle: Dispatch<SetStateAction<string>>
+  setSelectedNote: Dispatch<SetStateAction<Note | null>>
 }
 
 interface Props {
@@ -22,26 +25,23 @@ export default function NotesProvider({ children }: Props) {
   const [initialNotes, setNoteState] = useLocalStorage<NoteInfo[]>('notes', [])
   const [notes, setNotes] = useState<NoteInfo[]>(initialNotes)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
+  const [oldTitle, setOldTitle] = useState('')
 
-  const addNote = (note: NoteInfo) => {
+  const addOrUpdateNote = (note: Note) => {
     // TODO: add notes that were create
-    const { title } = note
-    const newNotes = [note, ...notes]
 
-    setNotes(
-      newNotes.map(note => {
-        if (note.title === title) {
-          return {
-            ...note,
-            lastEditTime: Date.now()
-          }
+    setNotes(prevNotes => {
+      const newNotes = prevNotes.map(prevNote => {
+        if (prevNote.id === note.id) {
+          return note
         }
 
-        return note
+        return prevNote
       })
-    )
 
-    setNoteState(newNotes)
+      setNoteState(newNotes)
+      return newNotes
+    })
   }
 
   useEffect(() => {
@@ -56,7 +56,9 @@ export default function NotesProvider({ children }: Props) {
   }, [])
 
   return (
-    <NotesContext.Provider value={{ notes, selectedNote, addNote, setSelectedNote }}>
+    <NotesContext.Provider
+      value={{ notes, selectedNote, oldTitle, setOldTitle, addOrUpdateNote, setSelectedNote }}
+    >
       {children}
     </NotesContext.Provider>
   )

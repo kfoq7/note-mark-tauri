@@ -1,4 +1,4 @@
-import { readDir, writeTextFile, readTextFile, BaseDirectory } from '@tauri-apps/api/fs'
+import { readDir, writeTextFile, readTextFile, BaseDirectory, renameFile } from '@tauri-apps/api/fs'
 import { invoke } from '@tauri-apps/api/tauri'
 import { formatDateFromUnix, type FileMetadata } from '@/lib/utlis'
 import type { NoteInfo } from '@/types'
@@ -15,11 +15,12 @@ const parseNoteFromFile = async (filename: string): Promise<NoteInfo> => {
   })
 
   const title = filename.replace(/\.md$/, '')
+  const lastEdit = formatDateFromUnix(filestat)
 
   return {
-    id: title,
+    id: lastEdit,
     title,
-    lastEditTime: formatDateFromUnix(filestat)
+    lastEditTime: lastEdit
   }
 }
 
@@ -39,6 +40,19 @@ export const readNote = async (title: string) => {
   const resolvePath = await resolve(HOME_DIR, 'NoteMark', `${title}.md`)
   const content = await readTextFile(resolvePath, { dir: BaseDirectory.Home })
   return content
+}
+
+export const renameNote = async (oldName: string, newName: string) => {
+  if (oldName === newName) return
+
+  const HOME_DIR = await getHomeDir()
+  const { resolve } = await import('@tauri-apps/api/path')
+
+  const [oldPath, newPath] = await Promise.all([
+    resolve(HOME_DIR, 'NoteMark', `${oldName}.md`),
+    resolve(HOME_DIR, 'NoteMark', `${newName}.md`)
+  ])
+  await renameFile(oldPath, newPath, { dir: BaseDirectory.Home })
 }
 
 export const saveNote = async ({ title, content }: { title: string; content: string }) => {
