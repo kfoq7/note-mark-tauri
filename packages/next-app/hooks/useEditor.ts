@@ -4,7 +4,7 @@ import { useCallback, useContext, useRef, useState } from 'react'
 import { debounce, throttle } from 'lodash'
 import { AUTO_SAVE_TIME } from '@/lib/consts'
 import { NotesContext } from '@/providers/notes'
-import { renameNote, saveNote } from '@/services/notes.service'
+import { renameNote, writeNote } from '@/services/notes.service'
 import type { MDXEditorMethods } from '@mdxeditor/editor'
 
 export function useEditor() {
@@ -18,18 +18,21 @@ export function useEditor() {
 
   const { selectedNote, oldTitle, setOldTitle, updateSelectedNote } = context
 
-  const autoSaveNote = throttle(
-    async (content: string) => {
-      if (!selectedNote) return
+  const autoSaveNote = useCallback(
+    throttle(
+      async (content: string) => {
+        if (!selectedNote) return
 
-      updateSelectedNote()
-      await saveNote({ title: selectedNote.title, content })
-    },
-    AUTO_SAVE_TIME,
-    {
-      leading: false,
-      trailing: true
-    }
+        updateSelectedNote()
+        await writeNote({ title: selectedNote.title, content })
+      },
+      AUTO_SAVE_TIME,
+      {
+        leading: false,
+        trailing: true
+      }
+    ),
+    []
   )
 
   const save = async () => {
@@ -38,7 +41,7 @@ export function useEditor() {
     autoSaveNote.cancel()
 
     const content = editorRef.current?.getMarkdown() ?? ''
-    await saveNote({ title: selectedNote.title, content })
+    await writeNote({ title: selectedNote.title, content })
   }
 
   const autoUpdateTitle = useCallback(
@@ -57,7 +60,7 @@ export function useEditor() {
     [oldTitle]
   )
 
-  const updateTitle = async (title: string) => {
+  const autoSaveTitle = async (title: string) => {
     if (!selectedNote) return
 
     const isValidFilename = /[~"#%&*:<>?/\\{|}]+/.test(title)
@@ -67,10 +70,10 @@ export function useEditor() {
     updateSelectedNote({ title })
   }
 
-  const autoSaveTitle = (title: string) => {
-    autoUpdateTitle(title)
-    updateTitle(title)
-  }
+  // const autoSaveTitle = (title: string) => {
+  //   autoUpdateTitle(title)
+  //   updateTitle(title)
+  // }
 
   const updateNoteTitle = async (title: string) => {
     if (!selectedNote) return

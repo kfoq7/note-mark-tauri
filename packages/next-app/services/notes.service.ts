@@ -55,6 +55,6 @@ export const renameNote = async (oldName: string, newName: string) => {
   await renameFile(oldPath, newPath, { dir: BaseDirectory.Home })
 }
 
-export const saveNote = async ({ title, content }: { title: string; content: string }) => {
+export const writeNote = async ({ title, content }: { title: string; content: string }) => {
   await writeTextFile(`NoteMark/${title}.md`, content, { dir: BaseDirectory.Home })
 }

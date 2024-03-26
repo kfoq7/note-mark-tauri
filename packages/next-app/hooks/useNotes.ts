@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { NotesContext } from '@/providers/notes'
-import { readNote } from '@/services/notes.service'
+import { readNote, writeNote } from '@/services/notes.service'
 
 export function useNotes() {
   const context = useContext(NotesContext)
@@ -9,7 +9,7 @@ export function useNotes() {
     throw new Error('useNotes must be used within a NotesProvider.')
   }
 
-  const { notes, selectedNote, setSelectedNote, setOldTitle } = context
+  const { notes, selectedNote, addOrUpdateNote, setSelectedNote, setOldTitle } = context
 
   const selectNote = async (title: string) => {
     const note = notes.find(note => note.title === title)
@@ -17,13 +17,30 @@ export function useNotes() {
     const content = await readNote(note.title)
     const noteContent = { ...note, content }
     setSelectedNote(noteContent)
-
     setOldTitle(title)
+  }
+
+  const createEmptyNote = async () => {
+    const now = Date.now()
+    const newNote = {
+      id: now,
+      title: `Untitled-${now}`,
+      content: '',
+      lastEditTime: now
+    }
+
+    console.log(newNote)
+    await writeNote(newNote)
+
+    addOrUpdateNote(newNote)
+    setSelectedNote(newNote)
+    setOldTitle(newNote.title)
   }
 
   return {
     notes,
     selectedNote,
-    selectNote
+    selectNote,
+    createEmptyNote
   }
 }
