@@ -9,7 +9,6 @@ export type NotesContextType = {
   oldTitle: string
   notes: NoteInfo[]
   selectedNote: Note | null
-  oldSelectedTitle?: string
   addOrUpdateNote: (note: Note) => void
   setOldTitle: Dispatch<SetStateAction<string>>
   setSelectedNote: Dispatch<SetStateAction<Note | null>>
@@ -28,8 +27,6 @@ export default function NotesProvider({ children }: Props) {
   const [oldTitle, setOldTitle] = useState('')
 
   const addOrUpdateNote = (note: Note) => {
-    // TODO: add notes that were create
-
     setNotes(prevNotes => {
       const newNotes = prevNotes.map(prevNote => {
         if (prevNote.id === note.id) {
