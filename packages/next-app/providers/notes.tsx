@@ -12,6 +12,7 @@ export type NotesContextType = {
   addOrUpdateNote: (note: Note) => void
   setOldTitle: Dispatch<SetStateAction<string>>
   setSelectedNote: Dispatch<SetStateAction<Note | null>>
+  updateSelectedNote: (note?: Partial<Note>) => void
 }
 
 interface Props {
@@ -25,6 +26,18 @@ export default function NotesProvider({ children }: Props) {
   const [notes, setNotes] = useState<NoteInfo[]>(initialNotes)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
   const [oldTitle, setOldTitle] = useState('')
+
+  // Update the selected note with the last edit time and save it to local storage.
+  // If necessary, pass an argument to update the title or content.
+  const updateSelectedNote = (note?: Partial<Note>) => {
+    setSelectedNote(prev => {
+      if (!prev) return prev
+
+      const updatedTitle = { ...prev, ...note, lastEditTime: Date.now() }
+      addOrUpdateNote(updatedTitle)
+      return updatedTitle
+    })
+  }
 
   const addOrUpdateNote = (note: Note) => {
     setNotes(prevNotes => {
@@ -54,7 +67,15 @@ export default function NotesProvider({ children }: Props) {
 
   return (
     <NotesContext.Provider
-      value={{ notes, selectedNote, oldTitle, setOldTitle, addOrUpdateNote, setSelectedNote }}
+      value={{
+        notes,
+        selectedNote,
+        oldTitle,
+        setOldTitle,
+        addOrUpdateNote,
+        setSelectedNote,
+        updateSelectedNote
+      }}
     >
       {children}
     </NotesContext.Provider>

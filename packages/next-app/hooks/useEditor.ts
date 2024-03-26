@@ -16,12 +16,13 @@ export function useEditor() {
     throw new Error('useEditor must be used within a NotesProvider.')
   }
 
-  const { selectedNote, oldTitle, setSelectedNote, setOldTitle, addOrUpdateNote } = context
+  const { selectedNote, oldTitle, setOldTitle, updateSelectedNote } = context
 
   const autoSaveNote = throttle(
     async (content: string) => {
       if (!selectedNote) return
 
+      updateSelectedNote()
       await saveNote({ title: selectedNote.title, content })
     },
     AUTO_SAVE_TIME,
@@ -63,13 +64,7 @@ export function useEditor() {
     setError(isValidFilename)
     if (isValidFilename) return
 
-    setSelectedNote(prev => {
-      if (!prev) return prev
-
-      const updatedTitle = { ...prev, title }
-      addOrUpdateNote(updatedTitle)
-      return updatedTitle
-    })
+    updateSelectedNote({ title })
   }
 
   const autoSaveTitle = (title: string) => {
