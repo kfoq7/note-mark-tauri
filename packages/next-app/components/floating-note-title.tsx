@@ -1,7 +1,7 @@
 import { useEditor } from '@/hooks/useEditor'
 
 export function FloatingNoteTitle() {
-  const { selectedNote, updateNoteTitle, autoSaveTitle } = useEditor()
+  const { selectedNote, updateNoteTitle, autoSaveTitle, error } = useEditor()
 
   if (!selectedNote) return null
 
@@ -14,6 +14,16 @@ export function FloatingNoteTitle() {
         onBlur={e => updateNoteTitle(e.target.value)}
         placeholder=""
       />
+
+      {error && (
+        <div className="pointer-events-none absolute right-8 top-10 z-10 rounded-md bg-white text-xs text-black">
+          <div className="flex flex-col px-3 py-2">
+            A file name can't contain any of the following characters:
+            {/* Equivalent HTML entities <span>{'\\/:*?"<>|'}</span> */}
+            <span>\&#47;&#58;&#42;&#63;&#34;&lt;&gt;&#124;</span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

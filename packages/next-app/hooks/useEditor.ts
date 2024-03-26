@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useContext, useRef } from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
 import { debounce, throttle } from 'lodash'
 import { AUTO_SAVE_TIME } from '@/lib/consts'
 import { NotesContext } from '@/providers/notes'
@@ -10,6 +10,7 @@ import type { MDXEditorMethods } from '@mdxeditor/editor'
 export function useEditor() {
   const context = useContext(NotesContext)
   const editorRef = useRef<MDXEditorMethods>(null)
+  const [error, setError] = useState(false)
 
   if (context == null) {
     throw new Error('useEditor must be used within a NotesProvider.')
@@ -43,6 +44,12 @@ export function useEditor() {
     debounce(async (title: string) => {
       if (!selectedNote) return
 
+      const isValidFilename = /^[^\x00-\x1F\\/?%*:|"<>\.]+$/
+      if (!isValidFilename.test(title)) {
+        console.log('Character is not valid on change.')
+        return
+      }
+
       await renameNote(oldTitle, title)
       setOldTitle(title)
     }, AUTO_SAVE_TIME),
@@ -52,12 +59,16 @@ export function useEditor() {
   const updateTitle = async (title: string) => {
     if (!selectedNote) return
 
+    const isValidFilename = /[~"#%&*:<>?/\\{|}]+/.test(title)
+    setError(isValidFilename)
+    if (isValidFilename) return
+
     setSelectedNote(prev => {
       if (!prev) return prev
 
-      const updateTitle = { ...prev, title }
-      addOrUpdateNote(updateTitle)
-      return updateTitle
+      const updatedTitle = { ...prev, title }
+      addOrUpdateNote(updatedTitle)
+      return updatedTitle
     })
   }
 
@@ -69,6 +80,8 @@ export function useEditor() {
   const updateNoteTitle = async (title: string) => {
     if (!selectedNote) return
 
+    setError(false)
+
     autoUpdateTitle.cancel()
 
     await renameNote(oldTitle, title)
@@ -76,6 +89,7 @@ export function useEditor() {
   }
 
   return {
+    error,
     editorRef,
     selectedNote,
     autoSaveNote,
