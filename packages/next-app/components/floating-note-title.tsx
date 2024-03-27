@@ -10,8 +10,8 @@ export function FloatingNoteTitle() {
       <input
         className="z-50 w-full bg-transparent px-2 text-center text-gray-400 caret-gray-100/70 outline-none"
         value={selectedNote.title}
-        onChange={e => autoSaveTitle(e.target.value)}
-        onBlur={e => updateNoteTitle(e.target.value)}
+        onChange={e => updateNoteTitle(e.target.value)}
+        onBlur={e => autoSaveTitle(e.target.value)}
         placeholder=""
       />
 

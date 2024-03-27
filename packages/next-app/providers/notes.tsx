@@ -35,13 +35,12 @@ export default function NotesProvider({ children }: Props) {
 
       const updatedTitle = { ...prev, ...note, lastEditTime: Date.now() }
       addOrUpdateNote(updatedTitle)
-      setOldTitle(updatedTitle.title)
       return updatedTitle
     })
   }
 
   const addOrUpdateNote = (note: Note) => {
-    if (notes.some(currentNote => currentNote.id !== note.id)) {
+    if (notes.some(currentNote => currentNote.id !== note.id) || notes.length === 0) {
       setNotes(prevNotes => {
         const newNotes = [note, ...prevNotes.filter(prevNote => prevNote.id !== note.id)]
         setNoteState(newNotes)

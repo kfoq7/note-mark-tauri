@@ -29,11 +29,10 @@ export function useNotes() {
       lastEditTime: now
     }
 
-    console.log(newNote)
     await writeNote(newNote)
 
-    addOrUpdateNote(newNote)
     setSelectedNote(newNote)
+    addOrUpdateNote(newNote)
     setOldTitle(newNote.title)
   }
 

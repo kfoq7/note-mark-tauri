@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useContext, useRef, useState } from 'react'
-import { debounce, throttle } from 'lodash'
+import { useContext, useRef, useState } from 'react'
+import { throttle } from 'lodash'
 import { AUTO_SAVE_TIME } from '@/lib/consts'
 import { NotesContext } from '@/providers/notes'
 import { renameNote, writeNote } from '@/services/notes.service'
@@ -18,24 +18,21 @@ export function useEditor() {
 
   const { selectedNote, oldTitle, setOldTitle, updateSelectedNote } = context
 
-  const autoSaveNote = useCallback(
-    throttle(
-      async (content: string) => {
-        if (!selectedNote) return
+  const autoSaveNote = throttle(
+    async (content: string) => {
+      if (!selectedNote) return
 
-        updateSelectedNote()
-        await writeNote({ title: selectedNote.title, content })
-      },
-      AUTO_SAVE_TIME,
-      {
-        leading: false,
-        trailing: true
-      }
-    ),
-    []
+      updateSelectedNote()
+      await writeNote({ title: selectedNote.title, content })
+    },
+    AUTO_SAVE_TIME,
+    {
+      leading: false,
+      trailing: true
+    }
   )
 
-  const save = async () => {
+  const saveNote = async () => {
     if (!selectedNote) return
 
     autoSaveNote.cancel()
@@ -44,43 +41,20 @@ export function useEditor() {
     await writeNote({ title: selectedNote.title, content })
   }
 
-  const autoUpdateTitle = useCallback(
-    debounce(async (title: string) => {
-      if (!selectedNote) return
-
-      const isValidFilename = /^[^\x00-\x1F\\/?%*:|"<>\.]+$/
-      if (!isValidFilename.test(title)) {
-        console.log('Character is not valid on change.')
-        return
-      }
-
-      await renameNote(oldTitle, title)
-      setOldTitle(title)
-    }, AUTO_SAVE_TIME),
-    [oldTitle]
-  )
-
-  const autoSaveTitle = async (title: string) => {
+  const updateNoteTitle = async (title: string) => {
     if (!selectedNote) return
 
-    const isValidFilename = /[~"#%&*:<>?/\\{|}]+/.test(title)
-    setError(isValidFilename)
-    if (isValidFilename) return
+    const isInvalidFilaname = /[~"#%&*:<>?/\\{|}]+/.test(title)
+    setError(isInvalidFilaname)
+    if (isInvalidFilaname) return
 
     updateSelectedNote({ title })
   }
 
-  // const autoSaveTitle = (title: string) => {
-  //   autoUpdateTitle(title)
-  //   updateTitle(title)
-  // }
-
-  const updateNoteTitle = async (title: string) => {
+  const autoSaveTitle = async (title: string) => {
     if (!selectedNote) return
 
     setError(false)
-
-    autoUpdateTitle.cancel()
 
     await renameNote(oldTitle, title)
     setOldTitle(title)
@@ -93,6 +67,6 @@ export function useEditor() {
     autoSaveNote,
     autoSaveTitle,
     updateNoteTitle,
-    save
+    saveNote
   }
 }
