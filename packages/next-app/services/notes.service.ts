@@ -1,4 +1,11 @@
-import { readDir, writeTextFile, readTextFile, BaseDirectory, renameFile } from '@tauri-apps/api/fs'
+import {
+  readDir,
+  writeTextFile,
+  readTextFile,
+  BaseDirectory,
+  renameFile,
+  removeFile
+} from '@tauri-apps/api/fs'
 import { invoke } from '@tauri-apps/api/tauri'
 import { formatDateFromUnix, type FileMetadata } from '@/lib/utlis'
 import type { NoteInfo } from '@/types'
@@ -57,4 +64,8 @@ export const renameNote = async (oldName: string, newName: string) => {
 
 export const writeNote = async ({ title, content }: { title: string; content: string }) => {
   await writeTextFile(`NoteMark/${title}.md`, content, { dir: BaseDirectory.Home })
+}
+
+export const removeNote = async (title: string) => {
+  await removeFile(`NoteMark/${title}.md`, { dir: BaseDirectory.Home })
 }

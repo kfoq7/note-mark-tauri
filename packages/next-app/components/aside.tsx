@@ -5,7 +5,7 @@ import { AddIcon, DeleteIcon } from '@/icons'
 import { useNotes } from '@/hooks/useNotes'
 
 export function Aside() {
-  const { createEmptyNote } = useNotes()
+  const { createEmptyNote, deleteSelectedNote } = useNotes()
 
   return (
     <aside className="flex h-screen w-[290px] flex-col">
@@ -16,7 +16,10 @@ export function Aside() {
         >
           <AddIcon />
         </button>
-        <button className="rounded-md border border-zinc-400/50 px-2 py-1 transition-colors duration-100 hover:bg-zinc-600/50">
+        <button
+          className="rounded-md border border-zinc-400/50 px-2 py-1 transition-colors duration-100 hover:bg-zinc-600/50"
+          onClick={deleteSelectedNote}
+        >
           <DeleteIcon />
         </button>
       </div>

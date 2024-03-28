@@ -13,6 +13,7 @@ export type NotesContextType = {
   setOldTitle: Dispatch<SetStateAction<string>>
   setSelectedNote: Dispatch<SetStateAction<Note | null>>
   updateSelectedNote: (note?: Partial<Note>) => void
+  deleteNote: (title: string) => void
 }
 
 interface Props {
@@ -63,6 +64,14 @@ export default function NotesProvider({ children }: Props) {
     })
   }
 
+  const deleteNote = (title: string) => {
+    setNotes(prevNotes => {
+      const newNotes = prevNotes.filter(prevNote => prevNote.title !== title)
+      setNoteState(newNotes)
+      return newNotes
+    })
+  }
+
   useEffect(() => {
     getNotes()
       .then(noteResult => {
@@ -83,7 +92,8 @@ export default function NotesProvider({ children }: Props) {
         setOldTitle,
         addOrUpdateNote,
         setSelectedNote,
-        updateSelectedNote
+        updateSelectedNote,
+        deleteNote
       }}
     >
       {children}
