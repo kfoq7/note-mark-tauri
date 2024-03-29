@@ -1,15 +1,15 @@
 {
   "name": "note-mark-tauri",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "author": "Fabrizio M @kfoq7",
   "scripts": {
     "dev": "pnpm tauri dev",
+    "build": "pnpm tauri build",
     "dev:web": "next dev packages/next-app",
-    "build": "next build packages/next-app",
-    "start": "next start",
+    "build:web": "next build packages/next-app",
     "typecheck:web": "tsc --noEmit -p packages/next-app/tsconfig.json --composite false",
-    "lint": "next lint",
+    "lint": "next lint packages/next-app",
     "format": "prettier --write packages/next-app",
     "format:check": "prettier --check packages/next-app"
   },

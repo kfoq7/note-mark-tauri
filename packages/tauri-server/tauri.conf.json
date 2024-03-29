@@ -1,31 +1,28 @@
 {
   "$schema": "../../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeBuildCommand": "pnpm build",
+    "beforeBuildCommand": "pnpm build:web",
     "beforeDevCommand": "pnpm dev:web",
     "devPath": "http://localhost:3000",
-    "distDir": "../../next-app/out",
-    "withGlobalTauri": true
+    "distDir": "../next-app/out"
   },
   "package": {
     "productName": "note-mark-tauri",
-    "version": "0.1.0"
+    "version": "0.5.2"
   },
+
   "tauri": {
     "allowlist": {
-      "all": true,
       "path": {
         "all": true
       },
       "fs": {
-        "all": true,
         "readDir": true,
         "writeFile": true,
         "readFile": true,
         "createDir": true,
         "removeFile": true,
         "renameFile": true,
-        "exists": true,
         "scope": ["$HOME/NoteMark", "$HOME/NoteMark/*"]
       }
     },
@@ -44,7 +41,7 @@
         "../../public/icons/icon.icns",
         "../../public/icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.note.mark",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
